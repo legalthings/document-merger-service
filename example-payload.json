@@ -1,0 +1,7 @@
+{
+  "documents": [
+    "<html><head><base href=\"http://example.com/cdn\"></head><body><p>This is the first document</p></body></html>",
+    "<html><head>This should be ignored</head><body><p>This is the second document</p><b>It ends here</b></body></html>"
+  ],
+  "head": "<style>body: {margin: 0}</style>"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "document-merger-service",
+  "version": "1.0.0",
+  "description": "Service to merge documents",
+  "main": "index",
+  "scripts": {
+    "test": 0,
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/legalthings/document-merger-service.git"
+  },
+  "author": "LegalThings",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/legalthings/document-merger-service/issues"
+  },
+  "homepage": "https://github.com/legalthings/document-merger-service#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "document-merger": "^1.0.4",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {}
+}
