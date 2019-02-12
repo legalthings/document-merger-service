@@ -22,3 +22,24 @@ after_success:
 # Bump version
 - npm install mversion -g
 - test "$TRAVIS_BRANCH" != 'master' -o "$TRAVIS_PULL_REQUEST" != "false" || test -n "$(git tag --contains)" || bin/bump-version
+
+before_deploy:
+# Set environment variables for Elastic Beanstalk deploy
+- export ELASTIC_BEANSTALK_ENV="frontend-${TRAVIS_BRANCH}"
+- export ELASTIC_BEANSTALK_LABEL=$(git tag --contains)
+- test -n "$ELASTIC_BEANSTALK_LABEL" || export ELASTIC_BEANSTALK_LABEL="${TRAVIS_BRANCH}-${TRAVIS_COMMIT:0:7}"
+
+deploy:
+
+# Production
+- provider: elasticbeanstalk
+  access_key_id: AKIAJQQQ7NJVV6B67VCA
+  secret_access_key:
+    secure: "DTw4gQ307ecG5CsL6eRezxj18GEJi8xrTE4i82bw0XpnzKrC1wgu/ao94gD3VG2GtKfsIJKVVrhLmZtUCHy/STt4ih82EF4BFUP1FRwUoipXP1Uc9eXKyPBkQIdqaXEiafUff94GfpNVeWvuOJ69bzfBZ3aPzL8wqCbF5pfBd95mbKa+8rSw563vONo+HkKG3DlxNAGL8SprxZmEK/vn3PvfyZoqJQqJ1o06WcCX/pgaau4LWeV704638NerbANIc6TRtJWczSaE4ClwZCjJzKvpqBCfHMvMMu9U0DNZilE0Wl5fS3O5bcgXvb2r1A5AXdVuRJOrS1+j0U4Lemtpzeda7yPVJZDbLYq61Im6cDZWAmltqEFzdp/3sauWw9+iBg9h6TmlTOcbTNfe9tX/Ks+mtzpY8njniMHWpVqNcUL2O6+Zc7fTbNXv/nRnyYrGDFs7D5kaqFDMRSLZnpSEQhAu2XZp5FIAFbRe42c8JUhSzQy0pdPrjiyWJBJs65Jw/DT1zEGW3g3a1PHVbF07MQp5syy+dH/jXN73QcK0G6B3UclMkOpnfivCl7bRHtaroppbF/hFRQEW96V7DRUJns0A82n4qZ0Cd+wTnctsGu9SMurkojKqB2LQPDMyS1rvaq7510lRQc57CWx/chsT+okZYrN1si7rb0Sr9pSi97E="
+  region: eu-west-1
+  app: document-merger
+  bucket_name: elasticbeanstalk-eu-west-1-044051773080
+  bucket_path: document-merger
+  only_create_app_version: true
+  on:
+    branch: master

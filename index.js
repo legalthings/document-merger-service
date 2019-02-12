@@ -3,13 +3,22 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const cors = require("cors");
 const port = process.env.PORT || 3000;
 const DocumentMerger = require('document-merger');
 const info = require('./package');
+const winston = require('winston');
+const expressWinston = require('express-winston');
 
 app.use(bodyParser.json({ limit: '50mb'}));
-app.use(cors());
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.json()
+  )
+}));
 
 app.post('/merge', (req, res) => {
   if (!req.body) {
