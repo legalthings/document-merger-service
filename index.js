@@ -4,10 +4,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const port = process.env.NODE_ENV || 3000;
+const port = process.env.PORT || 3000;
 const DocumentMerger = require('document-merger');
+const info = require('./package');
 
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '50mb'}));
 app.use(cors());
 
 app.post('/merge', (req, res) => {
@@ -40,6 +41,14 @@ app.post('/merge', (req, res) => {
 
   const merger = new DocumentMerger();
   res.status(200).send(merger.merge(options));
+});
+
+app.get('/', (req, res) => {
+  res.json({
+    name: info.name,
+    description: info.description,
+    version: info.version
+  });
 });
 
 app.listen(port, () => {
